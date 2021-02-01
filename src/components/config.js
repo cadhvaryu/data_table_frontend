@@ -1,3 +1,3 @@
 // JavaScript Document
-const webhostAPI ='http://localhost:5000/api/';
+const webhostAPI ='https://datatbale-api.herokuapp.com/api/';
 export const API= webhostAPI;
