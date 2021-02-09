@@ -23,6 +23,7 @@ class Header extends React.Component {
             {/*
             {(localStorage.getItem('token') && localStorage.getItem('loggedIn') === "true" && !isTokenExpired()) && */}
               <Collapse isOpen={this.state.isOpen} navbar>
+                {/*
                 <Nav className="ml-auto" navbar>
                   <NavItem>
                     <NavLink href={"/"}>Templates</NavLink>
@@ -38,7 +39,7 @@ class Header extends React.Component {
                       <NavLink href="/logout">Logout</NavLink>
                     </DropdownMenu>
                   </UncontrolledDropdown>
-                </Nav>
+                </Nav>*/}
               </Collapse>
           {/* } */}
           </Navbar>
