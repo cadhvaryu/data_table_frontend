@@ -32,6 +32,9 @@ html body, input, button, select, textarea, .tooltip, .popover {
 	font-weight: 400;
 	height:100%;
 }
+input[type=checkbox] {
+  -webkit-appearance:checkbox !important;
+}
 body a, input[type="button"], input[type="submit"], .btn, .form-control,.customCard .overlay{
 	transition: all 0.3s ease-in-out;
 	-moz-transition: all 0.3s ease-in-out;
