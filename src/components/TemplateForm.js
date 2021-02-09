@@ -10,6 +10,10 @@ import 'react-datepicker/dist/react-datepicker.css';
 import moment from 'moment';
 import { API }  from "./config"
 
+const tfmFieldValue = (fieldValue) => {
+  let splitFieldValue = fieldValue.split(",");
+
+}
 
 class TemplateForm extends React.Component {
 
@@ -32,6 +36,30 @@ class TemplateForm extends React.Component {
       checkindate: ''
     };
     this.dateCheckInChanged = this.dateCheckInChanged.bind(this);
+    this.setMultipleValue = this.setMultipleValue.bind(this);
+  }
+
+  setMultipleValue(field, event) {
+    let fields = this.state.fields;
+    if (fields[field] === undefined) {
+      if (event.target.checked) {
+        let value = [];
+        value.push(event.target.value);
+        fields[field] = value;
+      }
+    } else {
+      if (event.target.checked) {
+        let value = fields[field];
+        value.push(event.target.value);
+        fields[field] = value;
+      } else {
+        let value = fields[field];
+        value = value.filter((item) => item !== event.target.value);
+        fields[field] = value;
+      }
+    }
+    this.setState({ fields: fields });
+
   }
 
   dateCheckInChanged(date, field) {
@@ -104,9 +132,15 @@ class TemplateForm extends React.Component {
       let values = [];
       // eslint-disable-next-line
       templateFieldsRecords && templateFieldsRecords.length > 0 && templateFieldsRecords.map((record, index) => {
-        values.push(fields[record.tfmFieldName.replace(" ","_").toLowerCase()]);
+        if (record.tfmField === "multiselect") {
+          values.push(fields[record.tfmFieldName.replace(" ","_").toLowerCase()].toString());
+        } else {
+          values.push(fields[record.tfmFieldName.replace(" ","_").toLowerCase()]);
+        }
+        
         fields[record.tfmFieldName.replace(" ","_").toLowerCase()] = '';
       })
+
       let jsonObject = JSON.stringify({
         tableName: fields['tmpltName'].replace(" ","_").toLowerCase(),
         fields: insertfields,
@@ -128,11 +162,12 @@ class TemplateForm extends React.Component {
 			        console.log(data);
 					    let success = {};
 			        success["successMessage"] = data.message;
-					    this.setState({ loading:false, checkindate: '', fields : fields, success });
+					    this.setState({ loading:false, checkindate: '', success });
 
 					    window.setTimeout(() => {
-		              this.setState({ success: '' });
-		          }, 5000);
+                window.location.reload(); 
+		            this.setState({ success: '', fields:[] });
+		          }, 2000);
 			    })
 			    .catch((error) => {
 			        handleError(error).then((error)=>{
@@ -346,9 +381,15 @@ class TemplateForm extends React.Component {
                                       <React.Fragment>
                                         <Input type="select"  name={record.tfmFieldName.replace(" ","_").toLowerCase()} id={record.tfmFieldName.replace(" ","_").toLowerCase()} ref={record.tfmFieldName.replace(" ","_").toLowerCase()} onChange={this.handleChange.bind(this, record.tfmFieldName.replace(" ","_").toLowerCase())} >    
                                           <option value="">Select value</option>
-                                          <option value="Categoy 1">Categoy 1</option>
-                                          <option value="Categoy 2">Categoy 2</option>
-                                          <option value="Categoy 3">Categoy 3</option>
+                                          {
+                                            record.tfmFieldValue && record.tfmFieldValue.split(",").map((item, index) => {
+                                              return(
+                                                <React.Fragment key={index}>
+                                                  <option value={item}>{item}</option>
+                                                </React.Fragment>
+                                              )
+                                            })
+                                          }
                                         </Input>
                                       </React.Fragment>
                                     )
@@ -356,12 +397,26 @@ class TemplateForm extends React.Component {
                                   {
                                     record.tfmField === "multiselect" && (
                                       <React.Fragment>
-                                        <Input type="select"  name={record.tfmFieldName.replace(" ","_").toLowerCase()} id={record.tfmFieldName.replace(" ","_").toLowerCase()} ref={record.tfmFieldName.replace(" ","_").toLowerCase()} onChange={this.handleChange.bind(this, record.tfmFieldName.replace(" ","_").toLowerCase())} multiple>    
+                                        {/*<Input type="select"  name={record.tfmFieldName.replace(" ","_").toLowerCase()} id={record.tfmFieldName.replace(" ","_").toLowerCase()} ref={record.tfmFieldName.replace(" ","_").toLowerCase()} onChange={this.handleChange.bind(this, record.tfmFieldName.replace(" ","_").toLowerCase())} multiple>    
                                           <option value="">Select value</option>
                                           <option value="Categoy 1">Categoy 1</option>
                                           <option value="Categoy 2">Categoy 2</option>
                                           <option value="Categoy 3">Categoy 3</option>
-                                        </Input>
+                                        </Input>*/}
+                                        
+                                        {
+                                          record.tfmFieldValue && record.tfmFieldValue.split(",").map((item, index) => {
+                                            return(
+                                              <React.Fragment key={index}>
+                                                <FormGroup check inline>
+                                                  <Label check>
+                                                    <Input type="checkbox" onChange={this.setMultipleValue.bind(this, record.tfmFieldName.replace(" ","_").toLowerCase())} value={item} /> {item}
+                                                  </Label>
+                                                </FormGroup>
+                                              </React.Fragment>
+                                            )
+                                          })
+                                        }
                                       </React.Fragment>
                                     )
                                   }
