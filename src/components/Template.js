@@ -470,10 +470,10 @@ class Template extends React.Component {
                             <td><label className="gbSwitch"><input type="checkbox" id={"active_"+templateRecord.tmpltId+"_"+templateRecord.tmpltIsActive} defaultChecked={templateRecord.tmpltIsActive} /><div className="gbCustomCheckBox"></div></label></td>
                             <td>
                               <div style={{display:"inline-block"}}>
-                                <i className="fa fa-edit" onClick={() => this.getTemplateRecord(templateRecord)}></i>
-                                <i className="fa fa-trash ml-3" onClick={() => this.deleteTemplate(templateRecord)} ></i>
-																<i className="fa fa-list ml-3" onClick={() => this.openTemplateField(templateRecord)} />
-																<i className="fa fa-list-alt ml-3" alt="Form" onClick={() => this.openTemplateForm(templateRecord)} />
+                                <i className="fa fa-edit" title="Edit Template" onClick={() => this.getTemplateRecord(templateRecord)}></i>
+                                <i className="fa fa-trash ml-3" title="Delete Template" onClick={() => this.deleteTemplate(templateRecord)} ></i>
+																<i className="fa fa-list ml-3" title="Add Template Custom Block" onClick={() => this.openTemplateField(templateRecord)} />
+																<i className="fa fa-list-alt ml-3" title="Fill Template Form" alt="Form" onClick={() => this.openTemplateForm(templateRecord)} />
                               </div>
                             </td>
                           </tr>

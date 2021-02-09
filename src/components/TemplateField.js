@@ -636,7 +636,7 @@ class TemplateField extends React.Component {
 							<h4 className="m-0">{fields['tmpltName']}</h4>
 						</Col>
 						<Col className="text-right">
-							<Button type="button" onClick={this.addTemplateBlockToggle}  className="lgnButton">Add Custom Field</Button>
+							<Button type="button" onClick={this.addTemplateBlockToggle}  className="lgnButton">Add Custom Block</Button>
 							<Modal isOpen={addTemplateBlockModal} toggle={this.addTemplateBlockToggle} className="brandModal modal-dialog-centered w-600" keyboard={false} backdrop="static">
 								<ModalHeader toggle={this.addBrandToggle}>{ "Add Custom Block" }</ModalHeader>
 								<ModalBody>
@@ -804,8 +804,9 @@ class TemplateField extends React.Component {
 															<Col className="text-right">
 																<div style={{display:"inline-block"}}>
 																	<i className="fa fa-plus fa-lg" onClick={() => this.openCustomField(item.tbmId)} aria-hidden="true" title="Add Custom Field" />
+																	{/*
 																	<i className="fa fa-edit fa-lg ml-3" aria-hidden="true" title="Edit Custom Block"></i>
-																	<i className="fa fa-trash fa-lg ml-3" aria-hidden="true" title="Delete Custom Block"></i>
+																	<i className="fa fa-trash fa-lg ml-3" aria-hidden="true" title="Delete Custom Block"></i> */}
 																</div>
 															</Col>
 														</Row>
