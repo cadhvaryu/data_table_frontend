@@ -132,10 +132,14 @@ class TemplateForm extends React.Component {
       let values = [];
       // eslint-disable-next-line
       templateFieldsRecords && templateFieldsRecords.length > 0 && templateFieldsRecords.map((record, index) => {
-        if (record.tfmField === "multiselect") {
-          values.push(fields[record.tfmFieldName.replace(" ","_").toLowerCase()].toString());
+        if(record.tfmField === "integer") {
+          values.push(parseInt(fields[record.tfmFieldName.replace(" ","_").toLowerCase()]));
         } else {
-          values.push(fields[record.tfmFieldName.replace(" ","_").toLowerCase()]);
+          if (record.tfmField === "multiselect") {
+            values.push(fields[record.tfmFieldName.replace(" ","_").toLowerCase()].toString());
+          } else {
+            values.push(fields[record.tfmFieldName.replace(" ","_").toLowerCase()]);
+          }
         }
         
         fields[record.tfmFieldName.replace(" ","_").toLowerCase()] = '';
