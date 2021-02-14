@@ -55,6 +55,9 @@ body input[type="file"]:focus, body input[type="radio"]:focus, body input[type="
 	position: relative;
 	vertical-align: middle;
 }
+.form-check-inline .form-check-input {
+	height: 14px !important;
+}
 i {
 	cursor: pointer;
 }
