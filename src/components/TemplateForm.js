@@ -214,9 +214,9 @@ class TemplateForm extends React.Component {
   checkBoxMandatoryChecked = (e) => {
     const { fields } = this.state;
     if (e.target.checked) {
-      fields[e.target.name] = e.target.checked
+      fields[e.target.name] = 1
     } else {
-      fields[e.target.name] = e.target.checked
+      fields[e.target.name] = 0
     }
     this.setState({ fields: fields });
   }
