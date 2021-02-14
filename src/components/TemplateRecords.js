@@ -56,8 +56,6 @@ class TemplateRecords extends React.Component {
             columnfields.push(temp1);
             selectfields += record.tfmFieldName.replace(" ","_").toLowerCase() + ",";
           })
-          columnfields.push({ "data": 'dateUpdated' });
-          insertfields.push({ "title": 'Modified On' });
           selectfields = selectfields.substring(0, selectfields.length - 1);
           this.setState({ loading:false, templateFieldsRecords: data.data, columnfields: columnfields, insertfields: insertfields, selectfields: selectfields });
 		    })
@@ -238,7 +236,6 @@ class TemplateRecords extends React.Component {
                               )
                             })
                           }
-                          <td>Modified On</td>
                         </tr>
                       </thead>
                       <tfoot>
@@ -250,7 +247,6 @@ class TemplateRecords extends React.Component {
                               )
                             })
                           }
-                          <td>Modified On</td>
                         </tr>
                       </tfoot>
                     </table>
