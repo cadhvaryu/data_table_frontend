@@ -334,7 +334,7 @@ class TemplateForm extends React.Component {
                                     record.tfmField === "text" && (
                                       <React.Fragment>
                                         <Input type="text" name={record.tfmFieldName.replace(" ","_").toLowerCase()} id={record.tfmFieldName.replace(" ","_").toLowerCase()} ref={record.tfmFieldName.replace(" ","_").toLowerCase()} onChange={this.handleChange.bind(this, record.tfmFieldName.replace(" ","_").toLowerCase())} value={this.state.fields[record.tfmFieldName.replace(" ","_").toLowerCase()]}
-                                        max={record.tfmFieldLength}  />    
+                                        maxlength={record.tfmFieldLength}  />    
                                       </React.Fragment>
                                     )
                                   }
@@ -342,7 +342,7 @@ class TemplateForm extends React.Component {
                                     record.tfmField === "phone" && (
                                       <React.Fragment>
                                         <Input type="number" name={record.tfmFieldName.replace(" ","_").toLowerCase()} id={record.tfmFieldName.replace(" ","_").toLowerCase()} ref={record.tfmFieldName.replace(" ","_").toLowerCase()} onChange={this.handleChange.bind(this, record.tfmFieldName.replace(" ","_").toLowerCase())} value={this.state.fields[record.tfmFieldName.replace(" ","_").toLowerCase()]}
-                                        max={record.tfmFieldLength}  />    
+                                        maxlength={record.tfmFieldLength}  />    
                                       </React.Fragment>
                                     )
                                   }
@@ -350,7 +350,7 @@ class TemplateForm extends React.Component {
                                     record.tfmField === "email" && (
                                       <React.Fragment>
                                         <Input type="email" name={record.tfmFieldName.replace(" ","_").toLowerCase()} id={record.tfmFieldName.replace(" ","_").toLowerCase()} ref={record.tfmFieldName.replace(" ","_").toLowerCase()} onChange={this.handleChange.bind(this, record.tfmFieldName.replace(" ","_").toLowerCase())} value={this.state.fields[record.tfmFieldName.replace(" ","_").toLowerCase()]}
-                                        max={record.tfmFieldLength}  />    
+                                        maxlength={record.tfmFieldLength}  />    
                                       </React.Fragment>
                                     )
                                   }
@@ -359,7 +359,7 @@ class TemplateForm extends React.Component {
                                     record.tfmField === "url" && (
                                       <React.Fragment>
                                         <Input type="url" name={record.tfmFieldName.replace(" ","_").toLowerCase()} id={record.tfmFieldName.replace(" ","_").toLowerCase()} ref={record.tfmFieldName.replace(" ","_").toLowerCase()} onChange={this.handleChange.bind(this, record.tfmFieldName.replace(" ","_").toLowerCase())} value={this.state.fields[record.tfmFieldName.replace(" ","_").toLowerCase()]}
-                                        max={record.tfmFieldLength}  />    
+                                        maxlength={record.tfmFieldLength}  />    
                                       </React.Fragment>
                                     )
                                   }
@@ -368,7 +368,7 @@ class TemplateForm extends React.Component {
                                     record.tfmField === "textbox" && (
                                       <React.Fragment>
                                         <Input type="textarea" name={record.tfmFieldName.replace(" ","_").toLowerCase()} id={record.tfmFieldName.replace(" ","_").toLowerCase()} ref={record.tfmFieldName.replace(" ","_").toLowerCase()} onChange={this.handleChange.bind(this, record.tfmFieldName.replace(" ","_").toLowerCase())} value={this.state.fields[record.tfmFieldName.replace(" ","_").toLowerCase()]}
-                                        max={record.tfmFieldLength}  />    
+                                        maxlength={record.tfmFieldLength}  />    
                                       </React.Fragment>
                                     )
                                   }
@@ -377,7 +377,7 @@ class TemplateForm extends React.Component {
                                     record.tfmField === "integer" && (
                                       <React.Fragment>
                                         <Input type="number" name={record.tfmFieldName.replace(" ","_").toLowerCase()} id={record.tfmFieldName.replace(" ","_").toLowerCase()} ref={record.tfmFieldName.replace(" ","_").toLowerCase()} onChange={this.handleChange.bind(this, record.tfmFieldName.replace(" ","_").toLowerCase())} value={this.state.fields[record.tfmFieldName.replace(" ","_").toLowerCase()]}
-                                        max={record.tfmFieldLength}  />    
+                                        maxlength={record.tfmFieldLength}  />    
                                       </React.Fragment>
                                     )
                                   }
