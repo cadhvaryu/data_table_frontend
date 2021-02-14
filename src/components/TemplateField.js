@@ -729,7 +729,7 @@ class TemplateField extends React.Component {
 										</Row>
 
 										{
-											(fields['tfmField'] === 'dropdown' || fields['tfmField'] === 'multiselect') ? (
+											(fields['tfmField'] === 'dropdown' || fields['tfmField'] === 'multiselect' || fields['tfmField'] === 'radio') ? (
 												<Row>
 													<Col>
 														<FormGroup>
@@ -805,8 +805,9 @@ class TemplateField extends React.Component {
 															<Col className="text-right">
 																<div style={{display:"inline-block"}}>
 																	<i className="fa fa-plus fa-lg" onClick={() => this.openCustomField(item.tbmId)} aria-hidden="true" title="Add Custom Field" />
+																	{/*
 																	<i className="fa fa-edit fa-lg ml-3" aria-hidden="true" title="Edit Custom Block"></i>
-																	<i className="fa fa-trash fa-lg ml-3" aria-hidden="true" title="Delete Custom Block"></i>
+																	<i className="fa fa-trash fa-lg ml-3" aria-hidden="true" title="Delete Custom Block"></i> */}
 																</div>
 															</Col>
 														</Row>

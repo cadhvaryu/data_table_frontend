@@ -10,11 +10,6 @@ import 'react-datepicker/dist/react-datepicker.css';
 import moment from 'moment';
 import { API }  from "./config"
 
-const tfmFieldValue = (fieldValue) => {
-  let splitFieldValue = fieldValue.split(",");
-
-}
-
 class TemplateForm extends React.Component {
 
 	constructor(props) {
@@ -133,6 +128,7 @@ class TemplateForm extends React.Component {
       // eslint-disable-next-line
       templateFieldsRecords && templateFieldsRecords.length > 0 && templateFieldsRecords.map((record, index) => {
         if(record.tfmField === "integer") {
+          // eslint-disable-next-line
           values.push(parseInt(fields[record.tfmFieldName.replace(" ","_").toLowerCase()]));
         } else {
           if (record.tfmField === "multiselect") {
@@ -337,21 +333,24 @@ class TemplateForm extends React.Component {
                                   {
                                     record.tfmField === "text" && (
                                       <React.Fragment>
-                                        <Input type="text" name={record.tfmFieldName.replace(" ","_").toLowerCase()} id={record.tfmFieldName.replace(" ","_").toLowerCase()} ref={record.tfmFieldName.replace(" ","_").toLowerCase()} onChange={this.handleChange.bind(this, record.tfmFieldName.replace(" ","_").toLowerCase())} value={this.state.fields[record.tfmFieldName.replace(" ","_").toLowerCase()]}  />    
+                                        <Input type="text" name={record.tfmFieldName.replace(" ","_").toLowerCase()} id={record.tfmFieldName.replace(" ","_").toLowerCase()} ref={record.tfmFieldName.replace(" ","_").toLowerCase()} onChange={this.handleChange.bind(this, record.tfmFieldName.replace(" ","_").toLowerCase())} value={this.state.fields[record.tfmFieldName.replace(" ","_").toLowerCase()]}
+                                        max={record.tfmFieldLength}  />    
                                       </React.Fragment>
                                     )
                                   }
                                   {
                                     record.tfmField === "phone" && (
                                       <React.Fragment>
-                                        <Input type="text" name={record.tfmFieldName.replace(" ","_").toLowerCase()} id={record.tfmFieldName.replace(" ","_").toLowerCase()} ref={record.tfmFieldName.replace(" ","_").toLowerCase()} onChange={this.handleChange.bind(this, record.tfmFieldName.replace(" ","_").toLowerCase())} value={this.state.fields[record.tfmFieldName.replace(" ","_").toLowerCase()]}  />    
+                                        <Input type="number" name={record.tfmFieldName.replace(" ","_").toLowerCase()} id={record.tfmFieldName.replace(" ","_").toLowerCase()} ref={record.tfmFieldName.replace(" ","_").toLowerCase()} onChange={this.handleChange.bind(this, record.tfmFieldName.replace(" ","_").toLowerCase())} value={this.state.fields[record.tfmFieldName.replace(" ","_").toLowerCase()]}
+                                        max={record.tfmFieldLength}  />    
                                       </React.Fragment>
                                     )
                                   }
                                   {
                                     record.tfmField === "email" && (
                                       <React.Fragment>
-                                        <Input type="email" name={record.tfmFieldName.replace(" ","_").toLowerCase()} id={record.tfmFieldName.replace(" ","_").toLowerCase()} ref={record.tfmFieldName.replace(" ","_").toLowerCase()} onChange={this.handleChange.bind(this, record.tfmFieldName.replace(" ","_").toLowerCase())} value={this.state.fields[record.tfmFieldName.replace(" ","_").toLowerCase()]}  />    
+                                        <Input type="email" name={record.tfmFieldName.replace(" ","_").toLowerCase()} id={record.tfmFieldName.replace(" ","_").toLowerCase()} ref={record.tfmFieldName.replace(" ","_").toLowerCase()} onChange={this.handleChange.bind(this, record.tfmFieldName.replace(" ","_").toLowerCase())} value={this.state.fields[record.tfmFieldName.replace(" ","_").toLowerCase()]}
+                                        max={record.tfmFieldLength}  />    
                                       </React.Fragment>
                                     )
                                   }
@@ -359,7 +358,8 @@ class TemplateForm extends React.Component {
                                   {
                                     record.tfmField === "url" && (
                                       <React.Fragment>
-                                        <Input type="url" name={record.tfmFieldName.replace(" ","_").toLowerCase()} id={record.tfmFieldName.replace(" ","_").toLowerCase()} ref={record.tfmFieldName.replace(" ","_").toLowerCase()} onChange={this.handleChange.bind(this, record.tfmFieldName.replace(" ","_").toLowerCase())} value={this.state.fields[record.tfmFieldName.replace(" ","_").toLowerCase()]}  />    
+                                        <Input type="url" name={record.tfmFieldName.replace(" ","_").toLowerCase()} id={record.tfmFieldName.replace(" ","_").toLowerCase()} ref={record.tfmFieldName.replace(" ","_").toLowerCase()} onChange={this.handleChange.bind(this, record.tfmFieldName.replace(" ","_").toLowerCase())} value={this.state.fields[record.tfmFieldName.replace(" ","_").toLowerCase()]}
+                                        max={record.tfmFieldLength}  />    
                                       </React.Fragment>
                                     )
                                   }
@@ -367,7 +367,8 @@ class TemplateForm extends React.Component {
                                   {
                                     record.tfmField === "textbox" && (
                                       <React.Fragment>
-                                        <Input type="textarea" name={record.tfmFieldName.replace(" ","_").toLowerCase()} id={record.tfmFieldName.replace(" ","_").toLowerCase()} ref={record.tfmFieldName.replace(" ","_").toLowerCase()} onChange={this.handleChange.bind(this, record.tfmFieldName.replace(" ","_").toLowerCase())} value={this.state.fields[record.tfmFieldName.replace(" ","_").toLowerCase()]}  />    
+                                        <Input type="textarea" name={record.tfmFieldName.replace(" ","_").toLowerCase()} id={record.tfmFieldName.replace(" ","_").toLowerCase()} ref={record.tfmFieldName.replace(" ","_").toLowerCase()} onChange={this.handleChange.bind(this, record.tfmFieldName.replace(" ","_").toLowerCase())} value={this.state.fields[record.tfmFieldName.replace(" ","_").toLowerCase()]}
+                                        max={record.tfmFieldLength}  />    
                                       </React.Fragment>
                                     )
                                   }
@@ -375,7 +376,8 @@ class TemplateForm extends React.Component {
                                   {
                                     record.tfmField === "integer" && (
                                       <React.Fragment>
-                                        <Input type="number" name={record.tfmFieldName.replace(" ","_").toLowerCase()} id={record.tfmFieldName.replace(" ","_").toLowerCase()} ref={record.tfmFieldName.replace(" ","_").toLowerCase()} onChange={this.handleChange.bind(this, record.tfmFieldName.replace(" ","_").toLowerCase())} value={this.state.fields[record.tfmFieldName.replace(" ","_").toLowerCase()]}  />    
+                                        <Input type="number" name={record.tfmFieldName.replace(" ","_").toLowerCase()} id={record.tfmFieldName.replace(" ","_").toLowerCase()} ref={record.tfmFieldName.replace(" ","_").toLowerCase()} onChange={this.handleChange.bind(this, record.tfmFieldName.replace(" ","_").toLowerCase())} value={this.state.fields[record.tfmFieldName.replace(" ","_").toLowerCase()]}
+                                        max={record.tfmFieldLength}  />    
                                       </React.Fragment>
                                     )
                                   }
@@ -401,13 +403,6 @@ class TemplateForm extends React.Component {
                                   {
                                     record.tfmField === "multiselect" && (
                                       <React.Fragment>
-                                        {/*<Input type="select"  name={record.tfmFieldName.replace(" ","_").toLowerCase()} id={record.tfmFieldName.replace(" ","_").toLowerCase()} ref={record.tfmFieldName.replace(" ","_").toLowerCase()} onChange={this.handleChange.bind(this, record.tfmFieldName.replace(" ","_").toLowerCase())} multiple>    
-                                          <option value="">Select value</option>
-                                          <option value="Categoy 1">Categoy 1</option>
-                                          <option value="Categoy 2">Categoy 2</option>
-                                          <option value="Categoy 3">Categoy 3</option>
-                                        </Input>*/}
-                                        
                                         {
                                           record.tfmFieldValue && record.tfmFieldValue.split(",").map((item, index) => {
                                             return(
@@ -415,6 +410,26 @@ class TemplateForm extends React.Component {
                                                 <FormGroup check inline>
                                                   <Label check>
                                                     <Input type="checkbox" onChange={this.setMultipleValue.bind(this, record.tfmFieldName.replace(" ","_").toLowerCase())} value={item} /> {item}
+                                                  </Label>
+                                                </FormGroup>
+                                              </React.Fragment>
+                                            )
+                                          })
+                                        }
+                                      </React.Fragment>
+                                    )
+                                  }
+
+                                  {
+                                    record.tfmField === "radio" && (
+                                      <React.Fragment>
+                                        {
+                                          record.tfmFieldValue && record.tfmFieldValue.split(",").map((item, index) => {
+                                            return(
+                                              <React.Fragment key={index}>
+                                                <FormGroup check inline>
+                                                  <Label check>
+                                                    <Input type="radio" onChange={this.handleChange.bind(this, record.tfmFieldName.replace(" ","_").toLowerCase())} value={item} /> {item}
                                                   </Label>
                                                 </FormGroup>
                                               </React.Fragment>
