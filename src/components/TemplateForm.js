@@ -429,7 +429,7 @@ class TemplateForm extends React.Component {
                                               <React.Fragment key={index}>
                                                 <FormGroup check inline>
                                                   <Label check>
-                                                    <Input type="radio" onChange={this.handleChange.bind(this, record.tfmFieldName.replace(" ","_").toLowerCase())} value={item} /> {item}
+                                                    <Input type="radio" name={record.tfmFieldName.replace(" ","_").toLowerCase()} onChange={this.handleChange.bind(this, record.tfmFieldName.replace(" ","_").toLowerCase())} value={item} /> {item}
                                                   </Label>
                                                 </FormGroup>
                                               </React.Fragment>
