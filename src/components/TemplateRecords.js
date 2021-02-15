@@ -50,11 +50,11 @@ class TemplateRecords extends React.Component {
               title: record.tfmFieldName
             }
             let temp1 = {
-              data: record.tfmFieldName.replace(" ","_").toLowerCase()
+              data: record.tfmFieldName.replace(/ /g,"_").toLowerCase()
             }
             insertfields.push(temp);
             columnfields.push(temp1);
-            selectfields += record.tfmFieldName.replace(" ","_").toLowerCase() + ",";
+            selectfields += record.tfmFieldName.replace(/ /g,"_").toLowerCase() + ",";
           })
           selectfields = selectfields.substring(0, selectfields.length - 1);
           this.setState({ loading:false, templateFieldsRecords: data.data, columnfields: columnfields, insertfields: insertfields, selectfields: selectfields });
@@ -96,7 +96,7 @@ class TemplateRecords extends React.Component {
       ...jsonHeader,
     })
     let jsonObject = JSON.stringify({
-      tableName: fields['tmpltName'].replace(" ","_").toLowerCase(),
+      tableName: fields['tmpltName'].replace(/ /g,"_").toLowerCase(),
       fields: selectfields
     })
     const options = {
