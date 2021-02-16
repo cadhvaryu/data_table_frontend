@@ -485,8 +485,8 @@ class TemplateField extends React.Component {
         tfmTemplateId: templateId,
 				tfmBlockId: blockId,
         tfmField: fields['tfmField'],
-        tfmFieldName: fields['tfmFieldName'],
-        tmpltName: fields['tmpltName'].replace(" ","_").toLowerCase(),
+        tfmFieldName: fields['tfmFieldName'].trim(),
+        tmpltName: fields['tmpltName'].replace(/ /g,"_").toLowerCase(),
 				tfmFieldValue: dropDownValue,
         tfmFieldIsActive: active,
         tfmFieldRequired: mandatory,
@@ -829,7 +829,7 @@ class TemplateField extends React.Component {
 																									<Draggable key={i} draggableId={field.tfmId} index={i + 1}>
 																										{(provided, snapshot) => (
 
-																										<tr key={"channel_"+i} ref={provided.innerRef}
+																										<tr key={"channel_"+i} className="p10" ref={provided.innerRef}
 																																{...provided.draggableProps}
 																																{...provided.dragHandleProps}
 																																style={getItemStyle(
