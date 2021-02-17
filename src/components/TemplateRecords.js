@@ -1,5 +1,6 @@
 import React from 'react';
-import { Card, CardBody, Row, Col } from 'reactstrap';
+import ReactDOM from 'react-dom';
+import { Card, CardBody, Row, Col, Button, Modal, Form, ModalHeader, ModalBody, FormGroup, Label } from 'reactstrap';
 import Header from './Header';
 import Footer from './Footer';
 import {checkStatus, handleError, parseJSON, jsonHeader} from './util';
@@ -15,6 +16,7 @@ class TemplateRecords extends React.Component {
     super(props);
     this.state = {
       templateFieldsRecords: [],
+      addTemplateBlockModal: false,
       layoutRecords: [],
       insertfields: [],
       columnfields: [],
@@ -23,8 +25,33 @@ class TemplateRecords extends React.Component {
       selectfields: "",
 		  loading: false,
       templateId: '',
+      tableRecord: {},
       tableName: ''
     };
+    this.addTemplateBlockToggle = this.addTemplateBlockToggle.bind(this);
+  }
+
+  addTemplateBlockToggle() {
+		this.setState({ loading:false, addTemplateBlockModal:!this.state.addTemplateBlockModal});
+	}
+
+  openModal = (recordData) => {
+    console.log("Record ====> ", recordData);
+    let fields = this.state.fields;
+    // eslint-disable-next-line
+    /*templateFieldsRecords && templateFieldsRecords.map((record, index) => {
+      fields[record.tfmFieldName.replace(/ /g,"_").toLowerCase()] = recordData.record.tfmFieldName.replace(/ /g,"_").toLowerCase();
+    })*/
+
+    for(let key in recordData) {
+      if(recordData.hasOwnProperty(key)) {
+          // var value = data[key];
+          fields[key] = recordData[key];
+          //do something with value;
+      }
+    }
+    console.log("fields ====> ", fields);
+    this.setState({ addTemplateBlockModal:!this.state.addTemplateBlockModal, tableRecord: recordData });
   }
 
   getTemplateFieldsRecords(templateId) {
@@ -41,23 +68,29 @@ class TemplateRecords extends React.Component {
 		    .then(checkStatus)
 		    .then(parseJSON)
 		    .then(data => {
+          //console.log("In Field Data", data);
           let insertfields = [];
           let columnfields = [];
           let selectfields = "";
+          columnfields.push({ "title": "Id", "data": "id" });
           // eslint-disable-next-line
-          data.data && data.data.length > 0 && data.data.map((record, index) => {
+          data.allfield && data.allfield.length > 0 && data.allfield.map((record, index) => {
             let temp = {
-              title: record.tfmFieldName
+              title: record.tfmFieldName.replace(/ /g,"_").toLowerCase()
             }
             let temp1 = {
+              title: record.tfmFieldName,
               data: record.tfmFieldName.replace(/ /g,"_").toLowerCase()
             }
+            
             insertfields.push(temp);
             columnfields.push(temp1);
             selectfields += record.tfmFieldName.replace(/ /g,"_").toLowerCase() + ",";
           })
+          columnfields.push({ "title": "Action", "data": null });
+          console.log("columnfields =====>", columnfields);
           selectfields = selectfields.substring(0, selectfields.length - 1);
-          this.setState({ loading:false, templateFieldsRecords: data.data, columnfields: columnfields, insertfields: insertfields, selectfields: selectfields });
+          this.setState({ loading:false, templateFieldsRecords: data.allfield, columnfields: columnfields, insertfields: insertfields, selectfields: selectfields });
 		    })
 		    .catch((error) => {
 		        handleError(error).then((error)=>{
@@ -108,21 +141,28 @@ class TemplateRecords extends React.Component {
 		    .then(checkStatus)
 		    .then(parseJSON)
 		    .then(data => {
-            console.log("Field Record Data", data);
+            console.log("Field Record Datas", data);
+            let records = data.data
             this.setState({ loading: false, templateRecords: data.data });
             this.$el = $(this.el);
             this.$el.DataTable({
-              dom: 'Bfrtip',
-              data: data.data,
+              data: records,
               "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
               "columns": columnfields,
+              columnDefs : [
+                {
+                  'targets': [columnfields.length - 1],
+                  createdCell : (td, cellData, rowData, row, col) => {
+                    ReactDOM.render(<React.Fragment><Button type="button" onClick={() => this.openModal(rowData)}><i className="fa fa-eye"></i></Button> </React.Fragment>,td);
+                  }
+                }
+              ],
               "buttons": [
                 'copyHtml5',
                 'excelHtml5',
                 'csvHtml5',
                 'pdfHtml5'
-              ]
-
+              ],
             });
 		    })
 		    .catch((error) => {
@@ -167,12 +207,12 @@ class TemplateRecords extends React.Component {
 		    .then(checkStatus)
 		    .then(parseJSON)
 		    .then(data => {
-            console.log("In Here Template Record", data)
+            //console.log("In Here Template Record", data)
             let record = data.data;
             let templateRecord = record[0];
             let fields = this.state.fields;
             fields['tmpltName'] = templateRecord.tmpltName;
-            console.log("In Here Template Record", templateRecord.tmpltName)
+            //console.log("In Here Template Record", templateRecord.tmpltName)
             this.setState({ loading: false, fields: fields });
 		    })
 		    .catch((error) => {
@@ -214,13 +254,41 @@ class TemplateRecords extends React.Component {
   }
 
   render() {
-    const { templateFieldsRecords, loading } = this.state;
+    const { templateFieldsRecords, loading, addTemplateBlockModal, fields } = this.state;
     return (
       <div>
         <Header />
         <div className="container-fluid with-color-picker">
           <Loader fullPage loading={loading} />
 					<Row className="mt-5 mb-3"></Row>
+          <Modal isOpen={addTemplateBlockModal} toggle={this.addTemplateBlockToggle} className="brandModal modal-dialog-centered w-600" keyboard={false} backdrop="static">
+						<ModalHeader toggle={this.addBrandToggle}>{ "Add Custom Block" }</ModalHeader>
+            <ModalBody>
+              <Form className="brandForm" method="POST">
+                
+                
+                {
+                  templateFieldsRecords && templateFieldsRecords.length > 0 && templateFieldsRecords.map((record, index) => {
+                    return (
+                      <React.Fragment key={index}>
+                        <FormGroup row>
+                          <Label for="exampleEmail" sm={6}>{record.tfmFieldName}</Label>
+                          <Col sm={6}>
+                            <p>{fields[record.tfmFieldName.replace(/ /g,"_").toLowerCase()]}</p>
+                          </Col>
+                        </FormGroup>
+                      </React.Fragment>
+                      
+                    )
+                  })
+                }
+                
+                <Row>
+                  <Button type="button" className="brandButton w-100 d-block ml-auto mr-auto mb-4 mt-2" onClick={ this.addTemplateBlockToggle }>{"Close" }</Button>
+                </Row>
+              </Form>
+            </ModalBody>
+          </Modal>
           <Row>
 						<Col lg="12">
               <Card>
@@ -229,6 +297,7 @@ class TemplateRecords extends React.Component {
                     <table id="example" className="display" width="100%" ref={el => this.el = el}>
                       <thead>
                         <tr>
+                          <td>Id</td>
                           {
                             templateFieldsRecords && templateFieldsRecords.length > 0 && templateFieldsRecords.map((record, index) => {
                               return (
@@ -236,10 +305,13 @@ class TemplateRecords extends React.Component {
                               )
                             })
                           }
+                          <td>Action</td>
                         </tr>
                       </thead>
+                      <tbody></tbody>
                       <tfoot>
                         <tr>
+                          <td>Id</td>
                           {
                             templateFieldsRecords && templateFieldsRecords.length > 0 && templateFieldsRecords.map((record, index) => {
                               return (
@@ -247,6 +319,7 @@ class TemplateRecords extends React.Component {
                               )
                             })
                           }
+                          <td>Action</td>
                         </tr>
                       </tfoot>
                     </table>

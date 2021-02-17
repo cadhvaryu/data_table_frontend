@@ -63,6 +63,7 @@ class TemplateField extends React.Component {
 		  barndloading: false,
 		  loading: false,
 		  templateId: '',
+			layoutId: 0,
 			blockId: ''
 		};
 		this.addTemplateToggle = this.addTemplateToggle.bind(this);
@@ -75,9 +76,10 @@ class TemplateField extends React.Component {
 		this.setState({ loading:false, addTemplateModal:!this.state.addTemplateModal, success, blockId: '' });
   }
 
-	openCustomField = (blockId) => {
+	openCustomField = (blockId, item) => {
+		console.log("Item", item)
 		let success = {};
-		this.setState({ loading:false, addTemplateModal:!this.state.addTemplateModal, success, blockId: blockId });
+		this.setState({ loading:false, addTemplateModal:!this.state.addTemplateModal, success, blockId: blockId, layoutId: item.tbmLayoutId });
 	}
 
 	onDragEnd(result) {
@@ -411,7 +413,8 @@ class TemplateField extends React.Component {
 			let jsonObject = JSON.stringify({
         tbmTemplateId: templateId,
         tbmBlockName: fields['tbmBlockName'],
-        tbmOrder: order
+        tbmOrder: order,
+				tbmLayoutId: fields['tbmLayoutId'] ? fields['tbmLayoutId'] : ''
       });
 
 
@@ -484,6 +487,7 @@ class TemplateField extends React.Component {
       let jsonObject = JSON.stringify({
         tfmTemplateId: templateId,
 				tfmBlockId: blockId,
+				tfmColumnName: fields['tfmColumnName'] ? fields['tfmColumnName'] : '',
         tfmField: fields['tfmField'],
         tfmFieldName: fields['tfmFieldName'].trim(),
         tmpltName: fields['tmpltName'].replace(/ /g,"_").toLowerCase(),
@@ -569,6 +573,17 @@ class TemplateField extends React.Component {
       errors["tfmFieldName"] = "";
     }
 
+		if (this.state.layoutId === 3) {
+			if (!fields['tfmColumnName']) {
+				formIsValid = false;
+				errors["tfmColumnName"] = "Please select field column.";
+			} else {
+				errors["tfmColumnName"] = "";
+			}
+		} else {
+			errors["tfmColumnName"] = "";
+		}
+
     if (!fields["tfmField"]) {
 			formIsValid = false;
 			errors["tfmField"] = "Please select field.";
@@ -615,9 +630,54 @@ class TemplateField extends React.Component {
 		fields[field] = e.target.value;
 		this.setState({ fields });
 	}
+
+	getLayoutRecords() {
+    const url = API + 'templates/getLayoutRecords';
+    const headers = new Headers({
+      ...jsonHeader,
+    })
+    const options = {
+      headers,
+      method: 'GET'
+    }
+    fetch(url, options)
+		    .then(checkStatus)
+		    .then(parseJSON)
+		    .then(data => {
+          this.setState({ loading:false, layoutRecords: data.data });
+		    })
+		    .catch((error) => {
+		        handleError(error).then((error)=>{
+		      		console.log(error);
+		      		if(error.status===401) {
+						    localStorage.clear();
+						    this.props.history.push('/');
+					    } else if(error.status===404) {
+						    localStorage.clear();
+						    this.props.history.push('/');
+						    this.setState({ loading:false });	
+					    } else {
+						    this.setState({ loading:false });	
+					    }
+		        }).catch((error)=>{
+		        	console.log(error);
+		        	if(error.status===401){
+						    localStorage.clear();
+						    this.props.history.push('/');
+					    } else if(error.status===404) {
+						    localStorage.clear();
+						    this.props.history.push('/login');
+						    this.setState({ loading:false });	
+					    } else {
+						    this.setState({ loading:false });	
+					    }
+		        });
+		    });
+	}
 	
 	componentDidMount() {
     this.setState({ loading:true, templateId:this.props.match.params.id });
+		this.getLayoutRecords();
     this.getTemplateRecord(this.props.match.params.id);
     //this.getTemplateFieldsRecords(this.props.match.params.id);
 		this.getTemplateBlockRecords(this.props.match.params.id);
@@ -625,7 +685,7 @@ class TemplateField extends React.Component {
 	
 
 	render() {
-    const { addTemplateModal, loading, fields, templateBlockRecords, addTemplateBlockModal } = this.state;
+    const { addTemplateModal, loading, fields, templateBlockRecords, addTemplateBlockModal, layoutRecords, layoutId } = this.state;
 		return (
 			<div>
 				<Header />
@@ -677,6 +737,26 @@ class TemplateField extends React.Component {
 												</FormGroup>
 											</Col>
 										</Row>*/}
+										<Row>
+                      <Col>
+												<FormGroup>
+													<Label for="tbmLayoutId">Layout</Label>
+                          <Input type="select" name="tbmLayoutId" id="tbmLayoutId" onChange={this.handleChange.bind(this, "tbmLayoutId")}>
+                            <option>Select value</option>
+                            {
+                              layoutRecords.length >0 && layoutRecords.map((item, index) => {
+                                return (
+                                  <React.Fragment key={index}>
+                                    <option value={item.lytId}>{item.lytName}</option>
+                                  </React.Fragment>
+                                )
+                              })
+                            }
+                          </Input>
+													<span className="error text-danger">{this.state.errors["tbmLayoutId"]}</span>
+												</FormGroup>
+											</Col>
+                    </Row>
 
 										<Row>
                       <Button type="button" className="brandButton w-100 d-block ml-auto mr-auto mb-4 mt-2" onClick={ this.addTemplateBlockToggle }>{"Close" }</Button>
@@ -741,6 +821,24 @@ class TemplateField extends React.Component {
 												</Row>
 											) : null}
 
+										{
+											layoutId === 3 && (
+												<Row>
+													<Col>
+														<FormGroup>
+															<Label for="tfmColumnName">Field Put In Column <span className="error">*</span></Label>
+															<Input type="select" name="tfmColumnName" id="tfmColumnName" onChange={this.handleChange.bind(this, "tfmColumnName")}>
+																<option>Select value</option>
+																<option value="Column 1">Column 1</option>
+																<option value="Column 2">Column 2</option>
+															</Input>
+															<span className="error text-danger">{this.state.errors["tfmColumnName"]}</span>
+														</FormGroup>
+													</Col>
+												</Row>
+											)
+										}
+
                     <Row>
 											<Col>
 												<FormGroup>
@@ -804,7 +902,7 @@ class TemplateField extends React.Component {
 															</Col>
 															<Col className="text-right">
 																<div style={{display:"inline-block"}}>
-																	<i className="fa fa-plus fa-lg" onClick={() => this.openCustomField(item.tbmId)} aria-hidden="true" title="Add Custom Field" />
+																	<i className="fa fa-plus fa-lg" onClick={() => this.openCustomField(item.tbmId, item)} aria-hidden="true" title="Add Custom Field" />
 																	{/*
 																	<i className="fa fa-edit fa-lg ml-3" aria-hidden="true" title="Edit Custom Block"></i>
 																	<i className="fa fa-trash fa-lg ml-3" aria-hidden="true" title="Delete Custom Block"></i> */}
