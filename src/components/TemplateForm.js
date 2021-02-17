@@ -125,7 +125,7 @@ class TemplateForm extends React.Component {
           record.tfmField === "integer" && (
             <React.Fragment>
               <Input type="number" name={record.tfmFieldName.replace(/ /g,"_").toLowerCase()} id={record.tfmFieldName.replace(/ /g,"_").toLowerCase()} ref={record.tfmFieldName.replace(/ /g,"_").toLowerCase()} onChange={this.handleChange.bind(this, record.tfmFieldName.replace(/ /g,"_").toLowerCase())} value={this.state.fields[record.tfmFieldName.replace(/ /g,"_").toLowerCase()]}
-              maxlength={record.tfmFieldLength}  />    
+              max={record.tfmFieldLength}  />    
             </React.Fragment>
           )
         }
