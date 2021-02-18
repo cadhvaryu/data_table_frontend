@@ -74,7 +74,7 @@ class TemplateForm extends React.Component {
       <FormGroup>
         {
           record.tfmField !== "checkbox" && (
-            <Label for="tfmFieldName">{record.tfmFieldName}  {record.tfmFieldRequired && (<span className="error">*</span>)}</Label>
+            <Label for="tfmFieldName">{record.tfmFieldName}  {record.tfmFieldRequired === 1 && (<span className="error">*</span>)}</Label>
           )
         }
         

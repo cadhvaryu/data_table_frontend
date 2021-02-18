@@ -263,7 +263,7 @@ class TemplateRecords extends React.Component {
           <Loader fullPage loading={loading} />
 					<Row className="mt-5 mb-3"></Row>
           <Modal isOpen={addTemplateBlockModal} toggle={this.addTemplateBlockToggle} className="brandModal modal-dialog-centered w-600" keyboard={false} backdrop="static">
-						<ModalHeader toggle={this.addBrandToggle}>{ "Add Custom Block" }</ModalHeader>
+						<ModalHeader toggle={this.addBrandToggle}>{ "View Record" }</ModalHeader>
             <ModalBody>
               <Form className="brandForm" method="POST">
                 
