@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Card, CardBody, Row, Col, Button, Modal, Form, ModalHeader, ModalBody, FormGroup, Label } from 'reactstrap';
+import { Card, CardBody, Row, Col, Button, Modal, Form, Table, ModalHeader, ModalBody, FormGroup, Label } from 'reactstrap';
 import Header from './Header';
 import Footer from './Footer';
 import {checkStatus, handleError, parseJSON, jsonHeader} from './util';
@@ -294,7 +294,7 @@ class TemplateRecords extends React.Component {
 						<Col lg="12">
               <Card>
                 <CardBody> 
-                  <div>
+                  <div className="tbl-responsive">
                     <table id="example" className="display" width="100%" ref={el => this.el = el}>
                       <thead>
                         <tr>
