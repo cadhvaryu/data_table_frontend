@@ -149,6 +149,7 @@ class TemplateRecords extends React.Component {
               data: records,
               "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
               "columns": columnfields,
+              "autoWidth": false,
               columnDefs : [
                 {
                   'targets': [columnfields.length - 1],
