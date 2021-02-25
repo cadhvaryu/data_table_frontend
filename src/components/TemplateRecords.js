@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Card, CardBody, Row, Col, Button, Modal, Form, Table, ModalHeader, ModalBody, FormGroup, Label } from 'reactstrap';
+import { Card, CardBody, Row, Col, Button, Modal, Form, ModalHeader, ModalBody, FormGroup, Label } from 'reactstrap';
 import Header from './Header';
 import Footer from './Footer';
 import {checkStatus, handleError, parseJSON, jsonHeader} from './util';
@@ -50,7 +50,6 @@ class TemplateRecords extends React.Component {
           //do something with value;
       }
     }
-    console.log("fields ====> ", fields);
     this.setState({ addTemplateBlockModal:!this.state.addTemplateBlockModal, tableRecord: recordData });
   }
 

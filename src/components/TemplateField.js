@@ -744,12 +744,15 @@ class TemplateField extends React.Component {
                           <Input type="select" name="tbmLayoutId" id="tbmLayoutId" onChange={this.handleChange.bind(this, "tbmLayoutId")}>
                             <option>Select value</option>
                             {
+															// eslint-disable-next-line
                               layoutRecords.length >0 && layoutRecords.map((item, index) => {
-                                return (
-                                  <React.Fragment key={index}>
-                                    <option value={item.lytId}>{item.lytName}</option>
-                                  </React.Fragment>
-                                )
+																if (item.lytName !== "Block Layout Type") {
+																	return (
+																		<React.Fragment key={index}>
+																			<option value={item.lytId}>{item.lytName}</option>
+																		</React.Fragment>
+																	)
+																}
                               })
                             }
                           </Input>

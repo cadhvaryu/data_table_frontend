@@ -31,7 +31,7 @@ class Template extends React.Component {
 	addTemplateToggle(){
 		let fields = [];
 		let success = {};
-		this.setState({ loading:false, fields : fields, addTemplateModal:!this.state.addTemplateModal, success });
+		this.setState({ loading:false, fields : fields, templateId: "", addTemplateModal:!this.state.addTemplateModal, success });
   }
 
   getTemplateRecords() {
@@ -186,7 +186,7 @@ class Template extends React.Component {
   }
   
   getTemplateRecord = (record) => {
-    this.setState({ loading:true });
+    this.setState({ loading:true, templateId: record.tmpltId });
 		const url = API + 'templates/getTemplateRecord/'+record.tmpltId;
     const headers = new Headers({
       ...jsonHeader,
@@ -206,7 +206,7 @@ class Template extends React.Component {
             let fields = this.state.fields;
             fields['tmpltName'] = templateRecord.tmpltName
             fields['tmpltLayoutId'] = templateRecord.tmpltLayoutId
-		        this.setState({ loading: false, fields: fields, templateId: templateRecord.tmpltId,addTemplateModal: !this.state.addTemplateModal });
+		        this.setState({ loading: false, fields: fields, addTemplateModal: !this.state.addTemplateModal });
 		    })
 		    .catch((error) => {
 		        handleError(error).then((error)=>{
@@ -382,6 +382,7 @@ class Template extends React.Component {
 
 	render() {
     const { addTemplateModal, loading, templateId, layoutRecords, templateRecords } = this.state;
+		console.log("templateId ===> ", templateId);
 		return (
 			<div>
 				<Header />
@@ -406,7 +407,11 @@ class Template extends React.Component {
 											<Col>
 												<FormGroup>
 													<Label for="tmpltName">Template Name</Label>
-													<Input type="text" name="tmpltName" id="tmpltName" placeholder="Enter Template Name" ref="tmpltName" onChange={this.handleChange.bind(this, "tmpltName")} value={this.state.fields["tmpltName"]} />
+													{templateId === ""  ? (	
+														<Input type="text" name="tmpltName" id="tmpltName" placeholder="Enter Template Name" ref="tmpltName" onChange={this.handleChange.bind(this, "tmpltName")} value={this.state.fields["tmpltName"]}  />
+													) : (
+														<Input type="text" name="tmpltName" id="tmpltName" placeholder="Enter Template Name" ref="tmpltName" onChange={this.handleChange.bind(this, "tmpltName")} value={this.state.fields["tmpltName"]}  readOnly />
+													)}
 													<span className="error text-danger">{this.state.errors["tmpltName"]}</span>
 												</FormGroup>
 											</Col>
@@ -470,10 +475,10 @@ class Template extends React.Component {
                             <td><label className="gbSwitch"><input type="checkbox" id={"active_"+templateRecord.tmpltId+"_"+templateRecord.tmpltIsActive} defaultChecked={templateRecord.tmpltIsActive} /><div className="gbCustomCheckBox"></div></label></td>
                             <td>
                               <div style={{display:"inline-block"}}>
-                                <i className="fa fa-edit" title="Edit Template" onClick={() => this.getTemplateRecord(templateRecord)}></i>
-                                <i className="fa fa-trash ml-3" title="Delete Template" onClick={() => this.deleteTemplate(templateRecord)} ></i>
-																<i className="fa fa-list ml-3" title="Add Template Custom Block" onClick={() => this.openTemplateField(templateRecord)} />
-																<i className="fa fa-list-alt ml-3" title="Fill Template Form" alt="Form" onClick={() => this.openTemplateForm(templateRecord)} />
+                                <i className="fa fa-edit" onClick={() => this.getTemplateRecord(templateRecord)}></i>
+                                <i className="fa fa-trash ml-3" onClick={() => this.deleteTemplate(templateRecord)} ></i>
+																<i className="fa fa-list ml-3" onClick={() => this.openTemplateField(templateRecord)} />
+																<i className="fa fa-list-alt ml-3" alt="Form" onClick={() => this.openTemplateForm(templateRecord)} />
                               </div>
                             </td>
                           </tr>
