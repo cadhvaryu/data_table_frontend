@@ -1,5 +1,6 @@
 import React from 'react';
-import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink, UncontrolledDropdown, DropdownToggle, DropdownMenu} from 'reactstrap';
+import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
+//UncontrolledDropdown, DropdownToggle, DropdownMenu
 
 class Header extends React.Component {
   constructor(props) {
@@ -23,23 +24,28 @@ class Header extends React.Component {
             {/*
             {(localStorage.getItem('token') && localStorage.getItem('loggedIn') === "true" && !isTokenExpired()) && */}
               <Collapse isOpen={this.state.isOpen} navbar>
-                {/*
                 <Nav className="ml-auto" navbar>
                   <NavItem>
                     <NavLink href={"/"}>Templates</NavLink>
                   </NavItem>
+                  <NavItem>
+                    <NavLink href={"/forms"}>Forms</NavLink>
+                  </NavItem>
+                  <NavItem>
+                    <NavLink href={"/submit-form"}>Submit Form</NavLink>
+                  </NavItem>
                 </Nav>
+                
                 <Nav className="ml-auto" navbar>
-                  
-                  <UncontrolledDropdown nav inNavbar>
+                  {/*<UncontrolledDropdown nav inNavbar>
                     <DropdownToggle nav caret>
                       Admin
                       </DropdownToggle>
                     <DropdownMenu right>
                       <NavLink href="/logout">Logout</NavLink>
                     </DropdownMenu>
-                  </UncontrolledDropdown>
-                </Nav>*/}
+                  </UncontrolledDropdown>*/}
+                </Nav>
               </Collapse>
           {/* } */}
           </Navbar>

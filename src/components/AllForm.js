@@ -59,6 +59,7 @@ class TemplateField extends React.Component {
 			success: {},
       getTemplateRecord: [],
       templateFieldsRecords: [],
+      templateRecords: [],
 			templateBlockRecords: [],
       layoutRecords: [],
 		  barndloading: false,
@@ -733,6 +734,51 @@ class TemplateField extends React.Component {
 		this.setState({ fields });
 	}
 
+  getTemplateRecords() {
+    const url = API + 'templates/getTemplates';
+
+    const headers = new Headers({
+      ...jsonHeader,
+    })
+    const options = {
+      headers,
+      method: 'GET'
+    }
+    fetch(url, options)
+		    .then(checkStatus)
+		    .then(parseJSON)
+		    .then(data => {
+          this.setState({ loading:false, templateRecords: data.data });
+		    })
+		    .catch((error) => {
+		        handleError(error).then((error)=>{
+		      		console.log(error);
+		      		if(error.status===401) {
+						    localStorage.clear();
+						    this.props.history.push('/');
+					    } else if(error.status===404) {
+						    localStorage.clear();
+						    this.props.history.push('/');
+						    this.setState({ loading:false });	
+					    } else {
+						    this.setState({ loading:false });	
+					    }
+		        }).catch((error)=>{
+		        	console.log(error);
+		        	if(error.status===401){
+						    localStorage.clear();
+						    this.props.history.push('/');
+					    } else if(error.status===404) {
+						    localStorage.clear();
+						    this.props.history.push('/login');
+						    this.setState({ loading:false });	
+					    } else {
+						    this.setState({ loading:false });	
+					    }
+		        });
+		    });
+  }
+
 	getLayoutRecords() {
     const url = API + 'templates/getLayoutRecords';
     const headers = new Headers({
@@ -776,18 +822,31 @@ class TemplateField extends React.Component {
 		        });
 		    });
 	}
+  
+  handleTemplateChange(field, e) {
+    if (e.target.value === "") {
+      let fields = this.state.fields;
+      fields["tmpltName"] = "";
+      this.setState({ fields });
+    } else {
+      this.getTemplateRecord(Number(e.target.value));
+      this.getTemplateBlockRecords(Number(e.target.value));
+    }
+    
+  }
 	
 	componentDidMount() {
     this.setState({ loading:true, templateId:this.props.match.params.id });
 		this.getLayoutRecords();
-    this.getTemplateRecord(this.props.match.params.id);
-    //this.getTemplateFieldsRecords(this.props.match.params.id);
-		this.getTemplateBlockRecords(this.props.match.params.id);
+    this.getTemplateRecords();
+    /*this.getTemplateRecord(this.props.match.params.id);
+    this.getTemplateFieldsRecords(this.props.match.params.id);
+		this.getTemplateBlockRecords(this.props.match.params.id);*/
 	}
 	
 
 	render() {
-    const { addTemplateModal, loading, fields, templateBlockRecords, addBlockModal, addTemplateBlockModal, layoutRecords, layoutId, blockId } = this.state;
+    const { addTemplateModal, loading, fields, templateRecords, templateBlockRecords, addBlockModal, addTemplateBlockModal, layoutRecords, layoutId, blockId } = this.state;
 		return (
 			<div>
 				<Header />
@@ -797,6 +856,17 @@ class TemplateField extends React.Component {
 						<Col className="d-flex align-items-center">
 							<Input type="text" style={{ width: "30%"}} name="tmpltName" id="tmpltName" onChange={this.handleChange.bind(this, "tmpltName")} onBlur={() => this.updateTemplate()} value={fields['tmpltName']} />
 							{/* <h4 className="m-0">{fields['tmpltName']}</h4> */}
+              <Input type="select" style={{ width: "30%"}} name="templateId" id="templateId" onChange={this.handleTemplateChange.bind(this, "templateId")}>
+                <option value="">Select Template</option>
+                {
+                  templateRecords.length > 0 &&
+                  templateRecords.map((templateRecord, i) => {
+                    return (
+                      <option key={i} value={templateRecord.tmpltId}>{templateRecord.tmpltName}</option>
+                    )
+                  })
+                }
+              </Input>
 						</Col>
 						<Col className="text-right">
 							<Button type="button" onClick={this.addTemplateBlockToggle}  className="lgnButton"><i className="fa fa-plus" aria-hidden="true" title="Add Custom Block"></i></Button>

@@ -31,7 +31,8 @@ class Template extends React.Component {
 	addTemplateToggle(){
 		let fields = [];
 		let success = {};
-		this.setState({ loading:false, fields : fields, templateId: "", addTemplateModal:!this.state.addTemplateModal, success });
+		this.setState({ loading:false, fields : fields, templateId: "", success });
+		this.SubmitTemplate();
   }
 
   getTemplateRecords() {
@@ -289,15 +290,13 @@ class Template extends React.Component {
 		}
 	}
 
-	SubmitTemplate = async(event) => {
+	SubmitTemplate = async() => {
 
-		event.preventDefault();
-		if (this.handleValidation()) {	
-      const { fields } = this.state;
+		//event.preventDefault();
+		//if (this.handleValidation()) {	
 			this.setState({ loading:true });
       let jsonObject = JSON.stringify({
-        tmpltName: fields['tmpltName'],
-        tmpltLayoutId: fields['tmpltLayoutId']
+        tmpltName: 'Untitled Template'
       });   
       const url = API + 'templates/addTemplate';
       const headers = new Headers({
@@ -314,15 +313,10 @@ class Template extends React.Component {
 			    .then(parseJSON)
 			    .then(data => {
 			        console.log(data);
-			        let fields = [];
-					    let success = {};
-			        success["successMessage"] = data.message;
-					    this.setState({ loading:false, fields : fields, addTemplateModal:!this.state.addTemplateModal, success });
-
-					    window.setTimeout(() => {
-		              this.setState({ success: '' });
-		          }, 5000);
-		          this.getTemplateRecords();
+					    this.setState({ loading:false });
+							this.props.history.push("/template/field/"+data.data);
+							//window.location.href = "template/field/"+data.data;
+		          //this.getTemplateRecords();
 			    })
 			    .catch((error) => {
 			        handleError(error).then((error)=>{
@@ -338,9 +332,9 @@ class Template extends React.Component {
 			        	console.log(error);
 			        });
 			    });
-		}else{
+		/*}else{
 			console.log("Form has errors.")
-		}
+		}*/
 
 	}
 
@@ -458,7 +452,6 @@ class Template extends React.Component {
 											<tr>
 												<th>#</th>
 												<th>Template Name</th>
-												<th>Layout Name</th>
 												<th>Active</th>
 												<th>Action</th>
 											</tr>
@@ -471,16 +464,16 @@ class Template extends React.Component {
                           <tr key={"template_"+i}>
                             <td>{i+1}</td>
                             <td><a href={"/template/records/" + templateRecord.tmpltId}>{templateRecord.tmpltName}</a></td>
-                            <td>{templateRecord.layoutName}</td>
                             <td><label className="gbSwitch"><input type="checkbox" id={"active_"+templateRecord.tmpltId+"_"+templateRecord.tmpltIsActive} defaultChecked={templateRecord.tmpltIsActive} /><div className="gbCustomCheckBox"></div></label></td>
-                            <td>
+                            
+														<td>
                               <div style={{display:"inline-block"}}>
-                                <i className="fa fa-edit" onClick={() => this.getTemplateRecord(templateRecord)}></i>
-                                <i className="fa fa-trash ml-3" onClick={() => this.deleteTemplate(templateRecord)} ></i>
-																<i className="fa fa-list ml-3" onClick={() => this.openTemplateField(templateRecord)} />
-																<i className="fa fa-list-alt ml-3" alt="Form" onClick={() => this.openTemplateForm(templateRecord)} />
+                                
+                                <i className="fa fa-trash ml-3" onClick={() => this.deleteTemplate(templateRecord)} aria-hidden="true" title="Delete Template" />
+																<i className="fa fa-list ml-3" onClick={() => this.openTemplateField(templateRecord)} aria-hidden="true" title="Add Custom Block" />
+																<i className="fa fa-list-alt ml-3" alt="Form" onClick={() => this.openTemplateForm(templateRecord)} aria-hidden="true" title="Submit Form" />
                               </div>
-                            </td>
+														</td>
                           </tr>
                         )
                       }) :
