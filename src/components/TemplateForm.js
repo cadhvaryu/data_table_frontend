@@ -191,12 +191,19 @@ class TemplateForm extends React.Component {
         {
           record.tfmField === "checkbox" && (
             <React.Fragment>
-              <FormGroup row>
-                <Label style={{marginLeft: "15px", marginRight: "35px"}} for="tfmFieldRequired">{record.tfmFieldName}  {record.tfmFieldRequired && (<span className="error">*</span>)}</Label>
-                <Label style={{marginTop: "-5px"}} check>
-                  <Input type="checkbox" name={record.tfmFieldName.replace(/ /g,"_").toLowerCase()} id={record.tfmFieldName.replace(/ /g,"_").toLowerCase()} onChange={(e) => this.checkBoxMandatoryChecked(e, record.tfmFieldName.replace(/ /g,"_").toLowerCase())}  />
-                </Label>
-              </FormGroup>
+              {
+                record.tfmFieldValue && record.tfmFieldValue.split(",").map((item, index) => {
+                  return(
+                    <React.Fragment key={index}>
+                      <FormGroup check inline>
+                        <Label check>
+                          <Input type="checkbox" onChange={this.setMultipleValue.bind(this, record.tfmFieldName.replace(/ /g,"_").toLowerCase())} value={item} /> {item}
+                        </Label>
+                      </FormGroup>
+                    </React.Fragment>
+                  )
+                })
+              }
             </React.Fragment>
           )
         }

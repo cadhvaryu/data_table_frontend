@@ -607,13 +607,15 @@ class TemplateField extends React.Component {
       errors["tfmField"] = "";
     }
 
-    if (!fields["tfmFieldLength"]) {
-			formIsValid = false;
-			errors["tfmFieldLength"] = "Please enter field length.";
-		} else {
-      errors["tfmFieldLength"] = "";
-    }
-    
+
+		if (fields["tfmField"] === "text") {
+			if (!fields["tfmFieldLength"]) {
+				formIsValid = false;
+				errors["tfmFieldLength"] = "Please enter field length.";
+			} else {
+				errors["tfmFieldLength"] = "";
+			}
+		}
 		
 		this.setState({ errors: errors });
 		return formIsValid;
