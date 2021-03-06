@@ -72,11 +72,7 @@ class TemplateForm extends React.Component {
   putLayout = (record) => {
     return (
       <FormGroup>
-        {
-          record.tfmField !== "checkbox" && (
-            <Label for="tfmFieldName">{record.tfmFieldName}  {record.tfmFieldRequired === 1 && (<span className="error">*</span>)}</Label>
-          )
-        }
+        <Label for="tfmFieldName">{record.tfmFieldName} : &nbsp;&nbsp; {record.tfmFieldRequired === 1 && (<span className="error">*</span>)}</Label>
         
         {
           record.tfmField === "text" && (
@@ -295,7 +291,7 @@ class TemplateForm extends React.Component {
       })
 
       let jsonObject = JSON.stringify({
-        tableName: fields['tmpltName'].replace(/ /g,"_").toLowerCase(),
+        tableName: "table_" + this.state.templateId,
         fields: insertfields,
         values: values
       });   
