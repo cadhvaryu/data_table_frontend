@@ -292,7 +292,7 @@ class TemplateForm extends React.Component {
       })
 
       let jsonObject = JSON.stringify({
-        tableName: fields['tmpltName'].replace(/ /g,"_").toLowerCase(),
+        tableName: "table_" + this.state.templateId,
         fields: insertfields,
         values: values
       });   
