@@ -281,7 +281,7 @@ class TemplateForm extends React.Component {
           // eslint-disable-next-line
           values.push(parseInt(fields[record.tfmFieldName.replace(/ /g,"_").toLowerCase()]));
         } else {
-          if (record.tfmField === "multiselect") {
+          if (record.tfmField === "multiselect" || record.tfmField === "checkbox") {
             values.push(fields[record.tfmFieldName.replace(/ /g,"_").toLowerCase()].toString());
           } else {
             values.push(fields[record.tfmFieldName.replace(/ /g,"_").toLowerCase()]);
