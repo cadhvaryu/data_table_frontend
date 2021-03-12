@@ -128,7 +128,7 @@ class TemplateRecords extends React.Component {
       ...jsonHeader,
     })
     let jsonObject = JSON.stringify({
-      tableName: fields['tmpltName'].replace(/ /g,"_").toLowerCase(),
+      tableName: "table_" + this.props.match.params.id,
       fields: selectfields
     })
     const options = {
