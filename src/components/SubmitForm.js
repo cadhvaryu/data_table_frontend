@@ -232,6 +232,10 @@ class TemplateForm extends React.Component {
 		    .then(checkStatus)
 		    .then(parseJSON)
 		    .then(data => {
+
+          console.log("Field Records", data);
+          console.log("====================================================");
+
           let insertfields = "";
           // eslint-disable-next-line
           data.allfield && data.allfield.length > 0 && data.allfield.map((record, index) => {
@@ -485,9 +489,9 @@ class TemplateForm extends React.Component {
   }
 
   handleTemplateChange(field, e) {
-    this.setState({ loading:true, templateId:Number(e.target.value) });
-    this.getTemplateRecord(Number(e.target.value));
-    this.getTemplateFieldsRecords(Number(e.target.value));
+    this.setState({ loading:true, templateId: e.target.value });
+    this.getTemplateRecord(e.target.value);
+    this.getTemplateFieldsRecords(e.target.value);
   }
 	
 	componentDidMount() {
@@ -498,6 +502,9 @@ class TemplateForm extends React.Component {
 
 	render() {
     const {  loading, fields, templateRecords, fieldByBlockRecords } = this.state;
+
+    console.log("FieldByBlockRecords =====> ", fieldByBlockRecords);
+
 		return (
 			<div>
 				<Header />
@@ -535,7 +542,7 @@ class TemplateForm extends React.Component {
 															</Col>
 														</Row>
                             {
-                              (item.tbmLayoutId === 1 || item.tbmLayoutId === 2) && item.templateFieldRecords && item.templateFieldRecords.map((record, index) => {
+                              (item.tbmLayoutId === 1 || item.tbmLayoutId === 2 || item.tbmLayoutId === 0) && item.templateFieldRecords && item.templateFieldRecords.map((record, index) => {
                                 return (
                                   <React.Fragment key={index}>
                                     <Row>
