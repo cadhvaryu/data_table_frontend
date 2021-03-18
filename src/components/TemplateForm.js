@@ -473,7 +473,7 @@ class TemplateForm extends React.Component {
 															</Col>
 														</Row>
                             {
-                              (item.tbmLayoutId === 1 || item.tbmLayoutId === 2) && item.templateFieldRecords && item.templateFieldRecords.map((record, index) => {
+                              (item.tbmLayoutId === 1 || item.tbmLayoutId === 2 || item.tbmLayoutId === 0) && item.templateFieldRecords && item.templateFieldRecords.map((record, index) => {
                                 return (
                                   <React.Fragment key={index}>
                                     <Row>
