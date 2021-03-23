@@ -616,6 +616,23 @@ class TemplateField extends React.Component {
 				errors["tfmFieldLength"] = "";
 			}
 		}
+
+		if (fields['tfmField'] === 'checkbox' || fields['tfmField'] === 'dropdown' || fields['tfmField'] === 'multiselect' || fields['tfmField'] === 'radio'){
+			if (!fields["tfmFieldValue"]) {
+				formIsValid = false;
+				errors["tfmFieldValue"] = "Please enter field value.";
+			} else {
+				let fieldValue = fields['tfmFieldValue'];
+				fieldValue = fieldValue.replace(/\n/g, '');
+				if(fieldValue === "") {
+					formIsValid = false;
+					errors["tfmFieldValue"] = "Please enter field value.";
+				} else {
+					errors["tfmFieldValue"] = "";
+				}
+				
+			}
+		}
     
 		
 		this.setState({ errors: errors });
